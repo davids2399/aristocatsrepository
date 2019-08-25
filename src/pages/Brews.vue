@@ -101,8 +101,9 @@
 
 <script>
 import Graphics from './Graphics'
-import fakeData from '../assets/fake-data.json'
+// import fakeData from '../assets/fake-data.json'
 import fakeDataArrays from '../assets/fake-data-array.json'
+// import { appendFile } from 'fs';
 
 export default {
   name: 'brews',
@@ -131,14 +132,14 @@ export default {
       },
       firstGraph: {
         id: 'firstGraph',
-        name: '',
+        name: 'grap',
         headers: [],
         results: [],
         label: 'MXN Peso'
       },
       secondGraph: {
         id: 'secondGraph',
-        name: '',
+        name: 'Grap',
         headers: [],
         results: [],
         label: 'Unidades'
@@ -161,10 +162,8 @@ export default {
         }
         var dates = [this.dates.indexOf(this.initialDate), this.dates.indexOf(this.endDate)]
         var location = this.locations.options.indexOf(this.locations.model)
-        console.log(beers)
-        console.log(dates)
-        console.log(location)
-        this.createData(beers, dates, location)
+        var result = this.createData(beers, dates, location)
+        this.sumData(result)
       } else {
         this.dialog.message = 'Por favor llene los campos requeridos'
         this.dialog.visibility = true
@@ -172,24 +171,16 @@ export default {
       }
       // fruits.slice(1, 3);
 
-      this.firstGraph = null
-      this.secondGraph = null
+      // this.firstGraph = null
+      // this.secondGraph = null
 
-      this.firstGraph = {
-        id: 'graphChanged1',
-        name: 'Tipo de Cerveza vs. Precio',
-        headers: this.brewType.model,
-        results: [1500, 2900, 1300, 2500, 3200, 3300],
-        label: 'MXN Peso'
-      }
-
-      this.secondGraph = {
-        id: 'graphChanged2',
-        name: 'Tipo de Cerveza vs. Unidades',
-        headers: this.brewType.model,
-        results: [15, 29, 13, 55, 32, 33],
-        label: 'Unidades'
-      }
+      // this.secondGraph = {
+      //   id: 'graphChanged2',
+      //   name: 'Tipo de Cerveza vs. Unidades',
+      //   headers: this.brewType.model,
+      //   results: [15, 29, 13, 55, 32, 33],
+      //   label: 'Unidades'
+      // }
     },
     getToday: function (plus) {
       var date = new Date()
@@ -198,52 +189,64 @@ export default {
       return date.getFullYear() + '/' + (month <= 9 ? '0' + month : month) + '/' + (day <= 9 ? '0' + day : day)
     },
     createData: function (beers, dates, location) {
+      var keep = []
+      var k
       var json = fakeDataArrays.splice(dates[0], dates[1] + 1)
       for (var i = 0; i < json.length; i++) {
-        console.log(json[i])
         if (location === -1) {
-          console.log('not clean')
+          keep = []
+          for (k = 0; k < beers.length; k++) {
+            keep.push(json[i][0][beers[k]])
+          }
+          json[i][0] = []
+          json[i][0] = keep
         } else {
           for (var j = 0; j < json[i].length; j++) {
             if (location === j) {
               var templine = json[i][j]
               json[i] = []
               json[i][0] = templine
-              var keep = []
-              for (var k = 0; k < beers.length; k++) {
-                console.log(beers[k])
+              keep = []
+              for (k = 0; k < beers.length; k++) {
                 keep.push(json[i][0][beers[k]])
               }
               json[i][0] = []
               json[i][0] = keep
-              console.log(json)
-              console.log(fakeData)
               break
             }
           }
         }
       }
-    }
-    // orderArray (array) {
-    //   var actual, siguiente, cambios = false
-    //   for (var i = 0; i < array.length; i++) {
-    //     actual = array[i]
-    //     siguiente = array[i + 1]
-    //     if (siguiente === null || siguiente === undefined) {
-    //       break
-    //     } else if (actual > siguiente) {
-    //       cambios = true
-    //       array[i] = siguiente
-    //       array[i + 1] = actual
-    //     }
-    //   }
+      return json
+    },
+    sumData: function (json) {
+      var suma = []
 
-    //   if (cambios) {
-    //     array = this.orderArray(array)
-    //   }
-    //   console.log(array)
-    //   return array
-    // }
+      for (var m = 0; m < 999; m++) {
+        suma[m] = 0
+      }
+      console.log(json.length)
+      for (var i = 0; i < json.length; i++) {
+        for (var j = 0; j < json[i].length; j++) {
+          console.log(json[i].length)
+          for (var k = 0; k < json[i][j].length; k++) {
+            console.log(i + ' - ' + j + ' - ' + k + ' - ')
+            console.log(json[i][j][k][0] + ' ' + json[i][j][k][1])
+            suma[k] += (json[i][j][k][0] * json[i][j][k][1])
+            if (isNaN(suma[k]) || suma[k] === 0) {
+              suma[k] = 0
+            }
+          }
+        }
+      }
+      this.firstGraph = {
+        id: 'firstGraph',
+        name: 'Tipo de Cerveza vs Precio',
+        headers: this.brewType.model,
+        results: suma,
+        label: 'MXN Peso'
+      }
+    }
   }
 }
 </script>
