@@ -1,14 +1,9 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="q-pa-md">
-      <div class="q-gutter-md" style="width: 500px">
-        <q-input v-model="userName" label="Username" filled autogrow/>
-        <q-input type="password" v-model="password" label="Password" filled autogrow/>
-      </div>
-    </div>
-    <div class="q-gutter-md">
-      <q-btn label="Log In" class="q-mt-md" color="teal" @click="login()">
-      </q-btn>
+  <q-page>
+    <q-input class="q-my-sm" v-model="userName" label="Username" filled autogrow/>
+    <q-input type="Password" v-model="password" label="Password" filled/>
+    <div class="row justify-center">
+      <q-btn label="Iniciar Sesión" class="q-mt-md" style="background-color: #0B7482;color:white" @click="login()"></q-btn>
     </div>
   </q-page>
 </template>

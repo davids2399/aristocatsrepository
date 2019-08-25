@@ -4,8 +4,11 @@ const routes = [
     path: '/',
     component: () => import('layouts/MyLayout.vue'),
     children: [
-      { path: '', redirect: '/brews' },
-      { path: 'brews', component: () => import('pages/Brews.vue') }
+      { path: '', redirect: '/beer' },
+      { path: 'beer', component: () => import('pages/Brews.vue') },
+      { path: 'beerPrediction', component: () => import('pages/Brews.vue') },
+      { path: 'store', component: () => import('pages/Store.vue') },
+      { path: 'storePrediction', component: () => import('pages/Store.vue') }
     ]
   },
   {
