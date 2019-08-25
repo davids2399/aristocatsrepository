@@ -45,6 +45,9 @@ module.exports = function (ctx) {
         'QItem',
         'QItemSection',
         'QItemLabel',
+        'QDate',
+        'QPopupProxy',
+        'QSelect'
         'QInput',
         'QAvatar',
         'QBtn'
