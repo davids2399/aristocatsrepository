@@ -22,7 +22,8 @@ module.exports = function (ctx) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'material-icons', // optional, you are not bound to it
+      'fontawesome-v5'
     ],
 
     framework: {
@@ -47,10 +48,12 @@ module.exports = function (ctx) {
         'QItemLabel',
         'QDate',
         'QPopupProxy',
-        'QSelect'
+        'QSelect',
         'QInput',
         'QAvatar',
-        'QBtn'
+        'QBtn',
+        'QScrollArea',
+        'QDialog'
       ],
 
       directives: [

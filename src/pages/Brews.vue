@@ -1,11 +1,10 @@
 <template>
-  <div class="col q-pa-md">
-    <div class="row">
-      <div class="col">
-        <div class="row">
-          <div class="col q-pa-sm">
-            <p class="text-h6 q-my-sm">Fecha inicial: </p>
-            <q-input filled v-model="initialDate" mask="date" :rules="['date']">
+  <div class="col q-px-xl q-py-lg">
+    <div class="row" style="background-color: white;">
+      <div class="col q-px-md shadow-1">
+        <div class="row q-my-md items-center">
+          <div class="col">
+            <q-input class="filter-input q-py-none" filled v-model="initialDate" mask="date" :rules="['date']" label="Fecha inicial:">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -15,9 +14,8 @@
               </template>
             </q-input>
           </div>
-          <div class="col q-pa-sm">
-            <p class="text-h6 q-my-sm">Fecha final: </p>
-            <q-input filled v-model="endDate" mask="date" :rules="['date']">
+          <div class="col">
+            <q-input class="filter-input q-py-none" filled v-model="endDate" mask="date" :rules="['date']" label="Fecha final:">
               <template v-slot:append>
                 <q-icon name="event" class="cursor-pointer">
                   <q-popup-proxy ref="qDateProxy" transition-show="scale" transition-hide="scale">
@@ -27,32 +25,84 @@
               </template>
             </q-input>
           </div>
-        </div>
-        <div class="row">
-          <div class="col q-pa-sm">
-            <p class="text-h6 q-my-sm">Tipo de cerveza: </p>
-            <q-select filled v-model="brewType.model" :options="brewType.options" label="Filled" />
+          <div class="col">
+            <q-select
+              class="filter-input"
+              filled
+              v-model="brewType.model"
+              multiple
+              :options="this.brewType.options"
+              label="Tipo de cerveza:"
+              counter
+              max-values="10"
+              hint="10 selecciones máximo"
+            />
           </div>
-          <div class="col q-pa-sm">
-            <p class="text-h6 q-my-sm">Sucursal: </p>
-            <q-select filled v-model="locations.model" :options="locations.options" label="Filled" />
+          <div class="col">
+            <q-select class="filter-input" filled v-model="locations.model" :options="this.locations.options" label="Sucursal:"/>
+          </div>
+          <div class="col row justify-center">
+            <q-btn color="primary" label="Buscar" @click="updateData()"/>
+            <q-dialog v-model="dialog.visibility" :position="dialog.position">
+              <div class="dialogCustom q-pa-md">
+                <p class="text-h5 text-white"><q-icon name="warning"></q-icon> {{ this.dialog.message }}</p>
+              </div>
+            </q-dialog>
           </div>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <graphics :headers="this.headers" :results="this.results" :label="this.label"></graphics>
+    <div class="row q-pa-md q-mt-md shadow-1" style="background-color: white;">
+      <div class="col q-pa-md div-padre">
+        <div class="div-hijo">
+        </div>
+        <p class="text-h5">{{ this.firstGraph.name }}</p>
+        <graphics :graph="this.firstGraph"></graphics>
       </div>
-      <div class="col">
-        <graphics :headers="this.headers" :results="this.results" :label="this.label"></graphics>
+      <div class="col q-pa-md div-padre">
+        <div class="div-hijo">
+        </div>
+        <p class="text-h5">{{ this.secondGraph.name }}</p>
+        <graphics :graph="this.secondGraph"></graphics>
       </div>
     </div>
   </div>
 </template>
 
+<style>
+  .filter-text{
+    color: #646464;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .filter-input{
+    margin: 0 auto;
+    width: 80%;
+  }
+
+  .div-padre{
+    position: relative;
+  }
+
+  .div-hijo{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #64646400
+  }
+
+  .dialogCustom{
+    background-color: rgb(167, 27, 27)
+  }
+</style>
+
 <script>
 import Graphics from './Graphics'
+import fakeData from '../assets/fake-data.json'
+import fakeDataArrays from '../assets/fake-data-array.json'
 
 export default {
   name: 'brews',
@@ -61,24 +111,139 @@ export default {
   },
   data () {
     return {
-      initialDate: '2019/02/01',
-      endDate: '2019/02/01',
+      dialog: {
+        visibility: false,
+        position: 'top',
+        message: ''
+      },
+      dates: ['2019/08/26', '2019/08/27', '2019/08/28', '2019/08/29', '2019/08/30', '2019/08/31'],
+      // cities: ['Guadalupe', 'San Pedro', 'Monterrey', 'Santiago', 'Apodaca'],
+      // cervezas: ['Indio', 'Sol', 'Corona', 'Tecate', 'Dos Equis'],
+      initialDate: this.getToday(1),
+      endDate: this.getToday(1),
       brewType: {
         model: null,
-        options: [
-          'Corona', 'Carta Blanca', 'Dos equis', 'Indio'
-        ]
+        options: ['Indio', 'Sol', 'Corona', 'Tecate', 'Dos Equis']
       },
       locations: {
         model: null,
-        options: [
-          'Aqui', 'Alla', 'Cerca', 'Lejos'
-        ]
+        options: ['Guadalupe', 'San Pedro', 'Monterrey', 'Santiago', 'Apodaca']
       },
-      headers: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-      results: [12, 19, 3, 5, 2, 3],
-      label: 'Calendario'
+      firstGraph: {
+        id: 'firstGraph',
+        name: '',
+        headers: [],
+        results: [],
+        label: 'MXN Peso'
+      },
+      secondGraph: {
+        id: 'secondGraph',
+        name: '',
+        headers: [],
+        results: [],
+        label: 'Unidades'
+      }
     }
+  },
+  methods: {
+    updateData: function () {
+      if (this.brewType.model && this.initialDate && this.endDate) {
+        var beers = []
+        for (var i = 0; i < this.brewType.model.length; i++) {
+          beers.push(this.brewType.options.indexOf(this.brewType.model[i]))
+        }
+        var condition1 = this.dates.indexOf(this.initialDate) === -1 || this.dates.indexOf(this.endDate) === -1
+        var condition2 = new Date(this.initialDate) > new Date(this.endDate)
+        if (condition1 || condition2) {
+          this.dialog.message = 'Una o ambas fechas son inválidas'
+          this.dialog.visibility = true
+          return 0
+        }
+        var dates = [this.dates.indexOf(this.initialDate), this.dates.indexOf(this.endDate)]
+        var location = this.locations.options.indexOf(this.locations.model)
+        console.log(beers)
+        console.log(dates)
+        console.log(location)
+        this.createData(beers, dates, location)
+      } else {
+        this.dialog.message = 'Por favor llene los campos requeridos'
+        this.dialog.visibility = true
+        return 0
+      }
+      // fruits.slice(1, 3);
+
+      this.firstGraph = null
+      this.secondGraph = null
+
+      this.firstGraph = {
+        id: 'graphChanged1',
+        name: 'Tipo de Cerveza vs. Precio',
+        headers: this.brewType.model,
+        results: [1500, 2900, 1300, 2500, 3200, 3300],
+        label: 'MXN Peso'
+      }
+
+      this.secondGraph = {
+        id: 'graphChanged2',
+        name: 'Tipo de Cerveza vs. Unidades',
+        headers: this.brewType.model,
+        results: [15, 29, 13, 55, 32, 33],
+        label: 'Unidades'
+      }
+    },
+    getToday: function (plus) {
+      var date = new Date()
+      var month = date.getMonth() + 1
+      var day = date.getDate() + plus
+      return date.getFullYear() + '/' + (month <= 9 ? '0' + month : month) + '/' + (day <= 9 ? '0' + day : day)
+    },
+    createData: function (beers, dates, location) {
+      var json = fakeDataArrays.splice(dates[0], dates[1] + 1)
+      for (var i = 0; i < json.length; i++) {
+        console.log(json[i])
+        if (location === -1) {
+          console.log('not clean')
+        } else {
+          for (var j = 0; j < json[i].length; j++) {
+            if (location === j) {
+              var templine = json[i][j]
+              json[i] = []
+              json[i][0] = templine
+              var keep = []
+              for (var k = 0; k < beers.length; k++) {
+                console.log(beers[k])
+                keep.push(json[i][0][beers[k]])
+              }
+              json[i][0] = []
+              json[i][0] = keep
+              console.log(json)
+              console.log(fakeData)
+              break
+            }
+          }
+        }
+      }
+    }
+    // orderArray (array) {
+    //   var actual, siguiente, cambios = false
+    //   for (var i = 0; i < array.length; i++) {
+    //     actual = array[i]
+    //     siguiente = array[i + 1]
+    //     if (siguiente === null || siguiente === undefined) {
+    //       break
+    //     } else if (actual > siguiente) {
+    //       cambios = true
+    //       array[i] = siguiente
+    //       array[i + 1] = actual
+    //     }
+    //   }
+
+    //   if (cambios) {
+    //     array = this.orderArray(array)
+    //   }
+    //   console.log(array)
+    //   return array
+    // }
   }
 }
 </script>
