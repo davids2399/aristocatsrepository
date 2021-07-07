@@ -1,7 +1,6 @@
 <template>
   <div>
-    <canvas id="streamChart" width="100%" height="100px" />
-    <button @click="changeData()"></button>
+    <canvas :id="this.graph.id" width="100%" height="100px" />
   </div>
 </template>
 
@@ -10,7 +9,7 @@ import Chart from 'chart.js'
 
 export default {
   name: 'brews',
-  props: ['headers', 'label', 'results'],
+  props: ['graph'],
   mounted () {
     this.generateChart()
   },
@@ -19,15 +18,15 @@ export default {
   },
   methods: {
     async generateChart () {
-      let ctx = document.getElementById('streamChart').getContext('2d')
+      let ctx = document.getElementById(this.graph.id).getContext('2d')
 
       this.chart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: this.headers,
+          labels: this.graph.headers,
           datasets: [{
-            label: this.label,
-            data: this.results,
+            label: this.graph.label,
+            data: this.graph.results,
             backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -48,10 +47,6 @@ export default {
           }]
         }
       })
-    },
-    changeData () {
-      this.headers = ['elemento', 'otro', 'nose', 'etc', '12asdasd']
-      this.data = [120, 210, 841, 115, 9]
     }
   }
 }

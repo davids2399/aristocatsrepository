@@ -1,31 +1,26 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-header elevated class="bg-primary text-white">
+    <q-header elevated class="text-white" style="background-color: #0B7482">
       <q-toolbar>
         <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar>
-          Data Viewer
+          <br>
         </q-toolbar-title>
       </q-toolbar>
     </q-header>
-    <q-page-container>
-      <div class="row">
-      </div>
-      <div class= "row">
-        <div class= "col">
-        </div>
-        <div class= "col" style="top: 100px;left: 100px ;right: 100px; position: relative">
-        <p style="color:black;font-size:32px;font-family:arial;font-style:bold">
-          Login to System
-        </p>
-        </div>
-        <div class= "col">
+    <q-page-container class="col">
+      <div class= "row justify-center">
+        <div class= "col-6">
+          <p class="q-my-xl text-center" style="color:black;font-size:32px;font-family:arial;font-style:bold">
+            Login to System
+          </p>
         </div>
       </div>
-      <router-view />
+      <div class="row q-my-xl justify-center">
+        <div class="col-4">
+          <router-view />
+        </div>
+      </div>
     </q-page-container>
 
   </q-layout>

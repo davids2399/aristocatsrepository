@@ -1,0 +1,114 @@
+{
+    "2019/08/26":{
+        "Guadalupe": {
+            "Indio": {
+                "unidades": 5,
+                "precio": 30
+            },
+            "Sol": {
+                "unidades": 0,
+                "precio": 28
+            },
+            "Corona": {
+                "unidades": 4,
+                "precio": 27
+            },
+            "Tecate": {
+                "unidades": 2,
+                "precio": 30
+            },
+            "Dos Equis": {
+                "unidades": 6,
+                "precio": 26
+            }
+        },
+        "San Pedro": {
+            "Indio": {
+                "unidades": 5,
+                "precio": 30
+            },
+            "Sol": {
+                "unidades": 0,
+                "precio": 28
+            },
+            "Corona": {
+                "unidades": 4,
+                "precio": 27
+            },
+            "Tecate": {
+                "unidades": 2,
+                "precio": 30
+            },
+            "Dos Equis": {
+                "unidades": 6,
+                "precio": 26
+            }
+        },
+        "Monterrey": {
+            "Indio": {
+                "unidades": 5,
+                "precio": 30
+            },
+            "Sol": {
+                "unidades": 0,
+                "precio": 28
+            },
+            "Corona": {
+                "unidades": 4,
+                "precio": 27
+            },
+            "Tecate": {
+                "unidades": 2,
+                "precio": 30
+            },
+            "Dos Equis": {
+                "unidades": 6,
+                "precio": 26
+            }
+        },
+        "Santiago": {
+            "Indio": {
+                "unidades": 5,
+                "precio": 30
+            },
+            "Sol": {
+                "unidades": 0,
+                "precio": 28
+            },
+            "Corona": {
+                "unidades": 4,
+                "precio": 27
+            },
+            "Tecate": {
+                "unidades": 2,
+                "precio": 30
+            },
+            "Dos Equis": {
+                "unidades": 6,
+                "precio": 26
+            }
+        },
+        "Apodaca": {
+            "Indio": {
+                "unidades": 5,
+                "precio": 30
+            },
+            "Sol": {
+                "unidades": 0,
+                "precio": 28
+            },
+            "Corona": {
+                "unidades": 4,
+                "precio": 27
+            },
+            "Tecate": {
+                "unidades": 2,
+                "precio": 30
+            },
+            "Dos Equis": {
+                "unidades": 6,
+                "precio": 26
+            }
+        }
+    }
+}
